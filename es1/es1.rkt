@@ -86,7 +86,7 @@
                        (in l))
     (if (null? in)
         '()
-        (cons (f (car in)) (my-map2-helper fun (cdr l))))))
+        (cons (fun (car in)) (my-map2-helper fun (cdr in))))))
 
 ; Ex. 2
 (define (takewhile f l)
