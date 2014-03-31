@@ -80,15 +80,13 @@
 
 ; Binary trees
 (struct leaf
-  ((content #:mutable)
-   (empty #:mutable)))
+  (content empty))
 
 (struct node leaf
-  ((left #:mutable)
-   (right #:mutable)))
+  (left right))
 
 (define (create-leaf v)
-  (leaf v #f))
+  (node v #f (create-empty) (create-empty)))
 
 (define (create-node v t1 t2)
   (node v #f t1 t2))
@@ -98,22 +96,19 @@
 
 ; Display a tree
 (define (display-tree t)
-  (assert (or (leaf? t) (node? t)))
+  (assert (leaf? t))
   (if (leaf-empty t)
       (display "-")
       (begin
         (display "Node: ")
         (display (leaf-content t))
         (newline)
-        (if (node? t)
-            (begin
-              (display "Left: ")
-              (display-tree (node-left t))
-              (newline)
-              (display "Right: ")
-              (display-tree (node-right t))
-              (newline))
-            (display "")))))
+        (display "Left: ")
+        (display-tree (node-left t))
+        (newline)
+        (display "Right: ")
+        (display-tree (node-right t))
+        (newline))))
 
 ; Sum all content of a tree
 (define (tree-sum t)
@@ -121,3 +116,21 @@
   (cond ((leaf-empty t) 0)
         ((node? t) (+ (leaf-content t) (+ (tree-sum (node-left t)) (tree-sum (node-right t)))))
         (#t (leaf-content t))))
+
+; Collect all leaves values in a list
+(define (tree-leaves t)
+  (let helper ((tree t)
+               (acc '()))
+    (cond ((leaf-empty tree) acc)
+          ((and (leaf-empty (node-left tree)) (leaf-empty (node-right tree))) (cons (leaf-content tree) acc))
+          (#t (append (helper (node-left tree) acc) (helper (node-right tree) acc))))))
+
+; Macro: while loop
+(define-syntax while
+  (syntax-rules ()
+    ((_ condition body ...)
+     (let loop ()
+       (when condition
+         (begin
+           body ...
+           (loop)))))))
