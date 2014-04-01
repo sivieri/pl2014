@@ -134,3 +134,33 @@
          (begin
            body ...
            (loop)))))))
+
+; Macro: rotate a list
+(define-syntax-rule (swap x y)
+  (let ([tmp x])
+    (set! x y)
+    (set! y tmp)))
+
+(define-syntax rotate
+  (syntax-rules ()
+    [(rotate a) (void)]
+    [(rotate a b c ...) (begin
+                          (swap a b)
+                          (rotate b c ...))]))
+
+; Macro to compute the max between two values
+(define-syntax my-max
+  (syntax-rules ()
+    [( _ a b)
+     (if (> a b) a b)]))
+
+; Macro to compute the max between two values where
+; the input expressions are evaluated only once
+; (i.e., it solves the problem you see in the .c source files we
+; saw in class)
+(define-syntax my-max2
+  (syntax-rules ()
+    [( _ a b) 
+     (let ([new-a a]
+           [new-b b])
+       (if (> new-a new-b) new-a new-b))]))
