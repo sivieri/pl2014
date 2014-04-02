@@ -6,6 +6,7 @@
 (define (greet name)
   (string-append "Hello, " name))
 
+; The previous definition is syntactic sugar for the following
 (define lgreet (lambda (name) (string-append "Hello, " name)))
 
 (define (optgreet name #:hi [hi "Hello"])
@@ -17,6 +18,15 @@
       (string-append hi ", " (car others) (apply restgreet #:hi "" (cdr others)))))
 
 ; Matrix definition and initialization (using vectors)
+; Note: you cannot use something like
+;
+; (make-vector rows (make-vector cols fill))
+;
+; because the interpreter will evaluate the inner call
+; and then use the same result in all the rows. This means
+; that each cell in the main vector would have a reference
+; to the same vector. You need to create different vectors
+; for each row.
 (define (make-matrix rows cols fill)
   (let ((vec (make-vector rows)))
     (let loop ((x 0))
@@ -48,7 +58,8 @@
           ((list? (car lst)) (helper (cdr lst) (helper (car lst) acc)))
           (#t (helper (cdr lst) (+ 1 acc))))))
 
-; Count elements in a nested list (mutability and other stuff)
+; Count elements in a nested list (mutability and other stuff,
+; kinda messy but shows mutability, for-each...)
 (define (count-elements-4 l)
   (define stack0 (list l))
   (let loop ([stack (cdr stack0)]
@@ -79,6 +90,9 @@
     (error "Assertion failed")))
 
 ; Binary trees
+; As said in class: this may not be the best implementation of
+; binary trees, but it is an example on how to work with structs.
+; Note that there is no mutability.
 (struct leaf
   (content empty))
 
@@ -113,9 +127,9 @@
 ; Sum all content of a tree
 (define (tree-sum t)
   (assert (leaf? t))
-  (cond ((leaf-empty t) 0)
-        ((node? t) (+ (leaf-content t) (+ (tree-sum (node-left t)) (tree-sum (node-right t)))))
-        (#t (leaf-content t))))
+  (if (leaf-empty t)
+      0
+      (+ (leaf-content t) (+ (tree-sum (node-left t)) (tree-sum (node-right t))))))
 
 ; Collect all leaves values in a list
 (define (tree-leaves t)
@@ -156,9 +170,7 @@
 
 ; Macro to compute the max between two values where
 ; the input expressions are evaluated only once
-; (i.e., it solves the problem you see in the .c source files we
-; saw in class)
-(define-syntax my-max2
+(define-syntax my-max-2
   (syntax-rules ()
     (( _ a b) 
      (let ((new-a a)
