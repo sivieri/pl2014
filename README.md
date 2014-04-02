@@ -7,3 +7,9 @@ This repository contains all the source code for the exercise lectures for the 2
 * Basic scheme programming: if, cond, named let
 * Recursion and tail recursion
 * Lists
+
+# Lecture 2 - Scheme
+* Argument passing
+* More on lists and vectors
+* Structs
+* Macro: simple examples, C vs. Scheme
