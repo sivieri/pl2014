@@ -4,7 +4,7 @@
 
 /*
  * What does it prints?
- * /
+ */
 
 int main(int argc, char *argv[]){
     int a = 10;
@@ -12,6 +12,7 @@ int main(int argc, char *argv[]){
 
     printf("%d\n", MAX(a,b));
     printf("%d\n", MAX(++a, ++b));
+    printf("%d\n", a); 
     printf("%d\n", b); 
 
     return 0;
