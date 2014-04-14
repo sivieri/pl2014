@@ -106,6 +106,13 @@
 ;               g1729
 ;               b4189)))
 
+; Same C example
+(define-syntax inc
+  (syntax-rules ()
+    ((_ i)
+     (let ((a 0))
+       (+ i 1)))))
+
 ; Coroutines a la Lua
 (define *queue* '())
 
@@ -152,4 +159,3 @@
     (fork (do-stuff-n-print "This is A" 4))
     (fork (do-stuff-n-print "This is B" 5))
     (thread-exit)))
-
