@@ -111,7 +111,7 @@
   (syntax-rules ()
     ((_ i)
      (let ((a 0))
-       (+ i 1)))))
+       (set! i (+ i 1))))))
 
 ; Coroutines a la Lua
 (define *queue* '())
