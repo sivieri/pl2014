@@ -159,3 +159,27 @@
     (fork (do-stuff-n-print "This is A" 4))
     (fork (do-stuff-n-print "This is B" 5))
     (thread-exit)))
+
+; "break" in a loop
+(define (break-test)
+  (call/cc (lambda (break)
+             (for-each
+              (lambda (i)
+                (if (= (remainder i 2) 0)
+                    (break)
+                    (begin
+                      (display i)
+                      (newline))))
+              '(1 2 3 4 5 6)))))
+
+; "continue" in a loop
+(define (continue-test)
+  (for-each
+   (lambda (i)
+     (call/cc (lambda (continue)
+                (if (= (remainder i 2) 0)
+                    (continue)
+                    (begin
+                      (display i)
+                      (newline))))))
+   '(1 2 3 4 5 6)))
