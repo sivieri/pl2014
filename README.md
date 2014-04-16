@@ -13,3 +13,7 @@ This repository contains all the source code for the exercise lectures for the 2
 * More on lists and vectors
 * Structs
 * Macro: simple examples, C vs. Scheme
+
+# Lecture 3 - Scheme
+* Macro: more advanced examples, C vs. Scheme (reprise)
+* Continuations: break, continue, coroutines
