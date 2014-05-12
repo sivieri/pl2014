@@ -17,3 +17,9 @@ This repository contains all the source code for the exercise lectures for the 2
 # Lecture 3 - Scheme
 * Macro: more advanced examples, C vs. Scheme (reprise)
 * Continuations: break, continue, coroutines
+
+# Lecture 4 - Haskell
+* Basic Haskell programming: if, pattern matching, where
+* Recursion and tail recursion
+* Lists and laziness
+* Data types
