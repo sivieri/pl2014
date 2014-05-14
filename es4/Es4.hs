@@ -12,10 +12,10 @@ myLength2 (_:xs) = 1 + myLength2 xs
 -- Range
 myRange :: Int -> Int -> [Int]
 myRange a b = if a > b
-                                then error "Low > High"
-                                else if a < b
-                                                then a : myRange (a + 1) b
-                                                else [a]
+                then error "Low > High"
+                else if a < b
+                        then a : myRange (a + 1) b
+                        else [a]
 
 myRange2 :: Int -> Int -> [Int]
 myRange2 a b
@@ -40,6 +40,13 @@ myFib a
 
 myFib2 :: [Int]
 myFib2 = 1 : 2 : zipWith (+) myFib2 (tail myFib2)
+
+-- List comprehensions
+rightTriangles :: [(Integer, Integer, Integer)]
+rightTriangles = [(a,b,c) | c <- [1..10], b <- [1..c], a <- [1..b], a^2 + b^2 == c^2, a + b + c == 24]
+
+rightTriangles2 :: [(Integer, Integer, Integer)]
+rightTriangles2 = [(a,b,c) | c <- [1,2..], b <- [1..c], a <- [1..b], a^2 + b^2 == c^2] 
 
 -- Takewhile
 myTakeWhile :: (a -> Bool) -> [a] -> [a]
