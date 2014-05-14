@@ -23,6 +23,7 @@ myRange2 a b
     | a == b = [a]
     | a < b = a : myRange2 (a + 1) b
 
+-- WARNING: infinite list, use "take"!
 myRange3 :: Int -> [Int]
 myRange3 a = a : myRange3 (a + 1)
 
@@ -31,20 +32,11 @@ myMap :: (a -> b) -> [a] -> [b]
 myMap _ [] = []
 myMap f (x:xs) = f x : myMap f xs
 
--- Fibonacci
-myFib :: Int -> Int
-myFib a
-    | a == 0 = 0
-    | a == 1 = 1
-    | otherwise = myFib (a - 1) + myFib (a - 2)
-
-myFib2 :: [Int]
-myFib2 = 1 : 1 : zipWith (+) myFib2 (tail myFib2)
-
 -- List comprehensions
 rightTriangles :: [(Integer, Integer, Integer)]
 rightTriangles = [(a,b,c) | c <- [1..10], b <- [1..c], a <- [1..b], a^2 + b^2 == c^2, a + b + c == 24]
 
+-- WARNING: infinite list, use "take"!
 rightTriangles2 :: [(Integer, Integer, Integer)]
 rightTriangles2 = [(a,b,c) | c <- [1,2..], b <- [1..c], a <- [1..b], a^2 + b^2 == c^2] 
 
@@ -72,40 +64,12 @@ encode :: Eq a => [a] -> [(a, Int)]
 encode input = zip (map head packed) (map length packed)
     where packed = pack input
 
--- K combinations
-combination 0 _ = [[]]
-combination _ [] = []
-combination n (x:xs) = (map (\y -> x : y) (combination (n - 1) xs)) ++ (combination n xs)
-
 -- Binary trees
--- let nums = [8,6,4,1,7,3,5]
--- let numsTree = foldr treeInsert EmptyTree nums
--- (foldr because treeInsert takes the current tree as second parameter)
+-- let empty = EmptyTree
+-- let singleNode = Node 10 EmptyTree EmptyTree
+-- let twoNodes = Node 5 empty singleNode
+-- ...
 data Tree a = EmptyTree | Node a (Tree a) (Tree a) deriving (Show, Read, Eq)
-
-singleton :: a -> Tree a
-singleton x = Node x EmptyTree EmptyTree
-
-treeInsert :: (Ord a) => a -> Tree a -> Tree a
-treeInsert x EmptyTree = singleton x
-treeInsert x (Node a left right)
-    | x == a = Node x left right
-    | x < a = Node a (treeInsert x left) right
-    | x > a = Node a left (treeInsert x right)
-
-treeElem :: (Ord a) => a -> Tree a -> Bool
-treeElem x EmptyTree = False
-treeElem x (Node a left right)
-    | x == a = True
-    | x < a = treeElem x left
-    | x > a = treeElem x right
-
-treeSum :: Num a => Tree a -> a
-treeSum EmptyTree = 0
-treeSum (Node a left right) = a + (treeSum left) + (treeSum right)
-
-treeValues EmptyTree = []
-treeValues (Node a left right) = a : ((treeValues left) ++ (treeValues right))
 
 -- Implementing a type class
 -- 
@@ -115,6 +79,12 @@ treeValues (Node a left right) = a : ((treeValues left) ++ (treeValues right))
 --     (/=) :: a -> a -> Bool
 --     x == y = not (x /= y)
 --     x /= y = not (x == y)
+--
+-- This means that a) we have to implement both "equals" and "not equals"
+-- and b) since "x is equal to y if x is not equal to y" and viceversa,
+-- we can just define "equals" or "not equals" and Haskell will infer the
+-- other one.
+
 data TrafficLight = Red | Yellow | Green
 
 instance Eq TrafficLight where

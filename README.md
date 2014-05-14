@@ -21,5 +21,5 @@ This repository contains all the source code for the exercise lectures for the 2
 # Lecture 4 - Haskell
 * Basic Haskell programming: if, pattern matching, where
 * Recursion and tail recursion
-* Lists and laziness
-* Data types
+* Lists, list comprehensions, laziness
+* Data types: intro and *deriving*, *instance*
