@@ -99,10 +99,6 @@ findCarrierBillingAddress2 person phoneMap carrierMap addressMap = do
 type Log = [String]
 newtype Logger a = Logger { execLogger :: (a, Log) }
 
-instance Functor Logger where
-    fmap f m = Logger (f a)
-        where (a, _) = execLogger m
-
 instance Monad Logger where
     return a = Logger (a, [])
     m >>= k = let (a, w) = execLogger m
@@ -122,6 +118,9 @@ record s = Logger ((), [s])
 singletonM :: (Show a) => a -> Logger (Tree a)
 singletonM x = record ("Created singleton " ++ show x) >> return (Node x EmptyTree EmptyTree)
 
+-- let nums = [8,6,4,1,7,3,5]
+-- let numsTree = liftM treeInsertM EmptyTree nums
+-- (foldM because treeInsertM returns a monad instead of the standard data structure)
 treeInsertM :: (Ord a, Show a) => Tree a -> a -> Logger (Tree a)
 treeInsertM EmptyTree x = singletonM x
 treeInsertM (Node a left right) x
