@@ -12,7 +12,7 @@ myFilter f = foldr (\x acc -> if f x then x:acc else acc) []
 
 -- Binary trees
 -- let nums = [8,6,4,1,7,3,5]
--- let numsTree = foldr treeInsert EmptyTree nums
+-- let t = foldr treeInsert EmptyTree nums
 -- (foldr because treeInsert takes the current tree as second parameter)
 data Tree a = EmptyTree | Node a (Tree a) (Tree a) deriving (Show, Read, Eq)
 
@@ -40,6 +40,22 @@ treeSum (Node a left right) = a + (treeSum left) + (treeSum right)
 treeValues :: Tree a -> [a]
 treeValues EmptyTree = []
 treeValues (Node a left right) = a : ((treeValues left) ++ (treeValues right))
+
+treeMap :: (a -> b) -> Tree a -> Tree b
+treeMap f EmptyTree = EmptyTree
+treeMap f (Node a left right) = Node (f a ) (treeMap f left) (treeMap f right)
+
+treeFold :: (a -> b -> a) -> a -> Tree b -> a
+treeFold f acc EmptyTree = acc
+treeFold f acc (Node b left right) = treeFold f (f (treeFold f acc left) b) right
+
+-- You can think the typeclass Functor as simply a typeclass used to be able to apply
+-- a function to each element of your structure. Basically, any data structure that
+-- works as a container for some data, can be a Functor
+-- (cfr. the books for the theory that goes behind the concept of Functor)
+instance Functor Tree where
+        fmap f EmptyTree = EmptyTree
+        fmap f (Node a left right) = Node (f a) (fmap f left) (fmap f right)
 
 -- Monads
 -- class Monad m where
