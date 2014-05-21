@@ -23,3 +23,11 @@ This repository contains all the source code for the exercise lectures for the 2
 * Recursion and tail recursion
 * Lists, list comprehensions, laziness
 * Data types: intro and *deriving*, *instance*
+
+# Lecture 5 - Haskell
+* Folds
+* Data types: ordered binary tree, with utility functions
+* Functor and Foldable: generic map and fold for new data types
+* Monads: Monad class, Maybe and the phonebook example
+
+[Functors, applicatives and monads in pictures (tutorial)](http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html)

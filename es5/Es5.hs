@@ -49,6 +49,9 @@ treeFold :: (a -> b -> a) -> a -> Tree b -> a
 treeFold f acc EmptyTree = acc
 treeFold f acc (Node b left right) = treeFold f (f (treeFold f acc left) b) right
 
+treeValues2 :: Tree a -> [a]
+treeValues2 t = treeFold (++) [] (treeMap (:[]) t)
+
 -- You can think the typeclass Functor as simply a typeclass used to be able to apply
 -- a function to each element of your structure. Basically, any data structure that
 -- works as a container for some data, can be a Functor
@@ -56,6 +59,9 @@ treeFold f acc (Node b left right) = treeFold f (f (treeFold f acc left) b) righ
 instance Functor Tree where
         fmap f EmptyTree = EmptyTree
         fmap f (Node a left right) = Node (f a) (fmap f left) (fmap f right)
+
+-- The same concept exists for fold, and it comes from the typeclass Foldable
+-- (cfr. the books for more details).
 
 -- Monads
 -- class Monad m where
@@ -72,12 +78,6 @@ instance Functor Tree where
 --     Nothing >>= f = Nothing
 --     Just x >>= f  = f x
 --     fail _ = Nothing
-
-foo :: (Show a, Show b) => Maybe a -> Maybe b -> Maybe String  
-foo a b = do  
-    x <- a
-    y <- b
-    Just (show x ++ show y)
 
 -- k-v map monad
 type PersonName = String
@@ -110,40 +110,3 @@ findCarrierBillingAddress2 person phoneMap carrierMap addressMap = do
     number <- M.lookup person phoneMap
     carrier <- M.lookup number carrierMap
     M.lookup carrier addressMap
-
--- Logger monad
-type Log = [String]
-newtype Logger a = Logger { execLogger :: (a, Log) }
-
-instance Monad Logger where
-    return a = Logger (a, [])
-    m >>= k = let (a, w) = execLogger m
-                  n      = k a
-                  (b, x) = execLogger n
-              in Logger (b, w ++ x)
-
-instance Show a => Show (Logger a) where
-    show (Logger a) = show a
-
-runLogger :: Logger a -> (a, Log)
-runLogger = execLogger
-
-record :: String -> Logger ()
-record s = Logger ((), [s])
-
-singletonM :: (Show a) => a -> Logger (Tree a)
-singletonM x = record ("Created singleton " ++ show x) >> return (Node x EmptyTree EmptyTree)
-
--- let nums = [8,6,4,1,7,3,5]
--- let numsTree = liftM treeInsertM EmptyTree nums
--- (foldM because treeInsertM returns a monad instead of the standard data structure)
-treeInsertM :: (Ord a, Show a) => Tree a -> a -> Logger (Tree a)
-treeInsertM EmptyTree x = singletonM x
-treeInsertM (Node a left right) x
-    | x == a = record ("Inserted " ++ show x) >> return (Node x left right)
-    | x < a = do
-        l <- treeInsertM left x
-        return (Node a l right)
-    | x > a = do
-        r <- treeInsertM right x
-        return (Node a left r)
