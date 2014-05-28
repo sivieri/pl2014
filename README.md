@@ -36,3 +36,5 @@ This repository contains all the source code for the exercise lectures for the 2
 * Monads: instantiating a Monad and creating utility methods
 * Create a new Logger Monad and reimplement the Tree methods to take advantage in it
 * (Very) brief examples of Monads in Scala
+
+*Please note* I have included today's slides with the project description, but refer to the course site for the updated version.
