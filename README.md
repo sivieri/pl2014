@@ -31,3 +31,8 @@ This repository contains all the source code for the exercise lectures for the 2
 * Monads: Monad class, Maybe and the phonebook example
 
 [Functors, applicatives and monads in pictures (tutorial)](http://adit.io/posts/2013-04-17-functors,_applicatives,_and_monads_in_pictures.html)
+
+# Lecture 6 - Haskell
+* Monads: instantiating a Monad and creating utility methods
+* Create a new Logger Monad and reimplement the Tree methods to take advantage in it
+* (Very) brief examples of Monads in Scala

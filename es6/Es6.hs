@@ -104,12 +104,3 @@ treeBalancedM (Node _ _ EmptyTree) = do
     record "Unbalanced!"
     return False
 treeBalancedM (Node _ left right) = andM (treeBalancedM left) (treeBalancedM right)
-
--- foldM
-treeSumM2 :: (Num a, Ord a) => Tree a -> Logger a
-treeSumM2 t = do
-    if s > 10
-       then record "Big tree"
-       else record "Small tree"
-    return s
-    where s = treeSum t
