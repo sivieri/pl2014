@@ -37,4 +37,4 @@ This repository contains all the source code for the exercise lectures for the 2
 * Create a new Logger Monad and reimplement the Tree methods to take advantage in it
 * (Very) brief examples of Monads in Scala
 
-*Please note* I have included today's slides with the project description, but refer to the course site for the updated version.
+*Please note*: I have included today's slides with the project description, but refer to the course site for the updated version.
