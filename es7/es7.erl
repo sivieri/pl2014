@@ -3,14 +3,17 @@
 
 % Public API
 
+-spec len([any()]) -> integer().
 len([]) ->
     0;
 len([_|T]) ->
     1 + len(T).
 
+-spec lent([any()]) -> integer().
 lent(List) ->
     lent_helper(List, 0).
 
+-spec range(integer(), integer()) -> [integer()].
 range(Low, High) when Low > High ->
     erlang:error(badarg);
 range(Low, High) when Low == High ->
@@ -18,19 +21,23 @@ range(Low, High) when Low == High ->
 range(Low, High) ->
     [Low|range(Low + 1, High)].
 
+-spec ranget(integer(), integer()) -> [integer()].
 ranget(Low, High) when Low > High ->
     erlang:error(badarg);
 ranget(Low, High) ->
     lists:reverse(ranget_helper(Low, High, [])).
 
+-spec map(fun((any()) -> any()), [any()]) -> [any()].
 map(_F, []) ->
     [];
 map(F, [H|T]) ->
     [F(H)|map(F, T)].
 
+-spec right_triangles() -> [{integer(), integer(), integer()}].
 right_triangles() ->
     [{A, B, C}|| C <- range(1, 10), B <- range(1, C), A <- range(1, B), A * A + B * B == C * C].
 
+-spec takewhile(fun((any()) -> boolean()), [any()]) -> [any()].
 takewhile(_F, []) ->
     [];
 takewhile(F, [H|T]) ->
@@ -41,9 +48,11 @@ takewhile(F, [H|T]) ->
             []
     end.
 
+-spec pack([any()]) -> [[any()]].
 pack(List) ->
     lists:reverse(pack_helper(List, [], [])).
 
+-spec encode([any()]) -> [{any(), integer()}].
 encode(List) ->
     Packed = pack(List),
     lists:zip(lists:map(fun hd/1, Packed), lists:map(fun length/1, Packed)).
