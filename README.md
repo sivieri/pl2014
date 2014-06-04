@@ -38,3 +38,11 @@ This repository contains all the source code for the exercise lectures for the 2
 * (Very) brief examples of Monads in Scala
 
 *Please note*: I have included today's slides with the project description, but refer to the course site for the updated version.
+
+# Lecture 7 - Erlang
+* Introduction and brief history
+* Functional Erlang
+* Examples on basic syntax, recursion and tail recursion, higher order functions
+* The binary tree, Erlang style
+
+*Please note*: there is no need for a specific Erlang version, any version from (at least) 14 to 17 should be enough for our examples.
