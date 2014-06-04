@@ -46,3 +46,5 @@ This repository contains all the source code for the exercise lectures for the 2
 * The binary tree, Erlang style
 
 *Please note*: there is no need for a specific Erlang version, any version from (at least) 14 to 17 should be enough for our examples.
+
+Each function is preceded by the specification of parameters and return value types: while this is not as precise as in languages like Haskell, and it does not given any information to the compiler (so there is not compile time checking, Erlang being a dynamically typed language), these specifications are supported by an Erlang tool called [Dialyzer](http://learnyousomeerlang.com/dialyzer), which analyzes an application and checks (with limitations) if the input and output types are correct. It is also useful from a readability point of view, and when (Javadoc-like) documentation is generated.
