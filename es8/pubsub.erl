@@ -29,6 +29,13 @@ client_loop() ->
 dispatcher_loop() -> 
     io:format("Dispatcher started~n"),
     dispatcher_loop(dict:new()).
+
+% The state of the server is is a dictionary of type
+% client -> [topic]
+% During the lesson we used
+% topic -> [client]
+% but the overall logic is the same, this simply changes
+% the way we compute the destinations.
 dispatcher_loop(Interests) ->
     receive
         {subscribe, Client, Topic} ->
