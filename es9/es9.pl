@@ -87,15 +87,6 @@ map(F, [X|XS], [Y|YS]) :- call(F, X, Y), map(F, XS, YS).
 
 double(N, R) :- R is N * N.
 
-% Filter
-% filter(<(3), [1, 2, 3], X).
-filter(_, [], []).
-filter(F, [X|XS], YS) :- 
-	(call(F, X) ->
-		YS = [X|YS1];
-		YS = YS1),
-	filter(F, XS, YS1).
-
 % Pack
 pack([], []).
 pack([X|XS], [Z|ZS]) :- pack_helper(X, XS, YS, Z), pack(YS, ZS).
@@ -108,7 +99,7 @@ pack_helper(X, [X|XS], YS, [X|ZS]) :- pack_helper(X, XS, YS, ZS).
 encode(L1, L2) :- pack(L1, L), encode_helper(L, L2).
 
 encode_helper([], []).
-encode_helper([[X|XS]|YS], [[N|X]|ZS]) :- length([X|XS], N), encode_helper(YS, ZS).
+encode_helper([[X|XS]|YS], [[N|[X]]|ZS]) :- length([X|XS], N), encode_helper(YS, ZS).
 
 % Right triangles
 right_triangles(N, A, B, C) :- between(1, N, C), between(1, C, B), between(1, B, A), C^2 =:= A^2 + B^2.
