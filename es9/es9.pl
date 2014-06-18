@@ -43,7 +43,7 @@ uncle(U, N) :- male(U), siblings(U, X), parent(X, N).
 aunt(A, N) :- female(A), siblings(A, X), parent(X, N).
 
 descendant(D, A) :- parent(A, D).
-descendant(D, A) :- parent(X, D), descendent(X, A).
+descendant(D, A) :- parent(X, D), descendant(X, A).
 
 ancestor(A, D) :- descendent(D, A).
 
@@ -56,17 +56,39 @@ rev2(L, RL) :- rev2_acc(L, [], RL).
 rev2_acc([], Acc, Acc).
 rev2_acc([H|T], Acc, Rev) :- rev2_acc(T, [H|Acc], Rev).
 
+% Takeout
+% 
+% Usage 1: take out an element
+% - when X is taken out of [X|R], R results
+% - when X is taken out of the tail of [X|R], [X|S] results, where S is the result of taking X out of R
+% takeout(X,[1,2,3],L).
+% 
+% Usage 2: add an element
+% - insert X into W to produce Z
+% takeout(3,W,[a,b,c]).
+takeout(X, [X|R], R).
+takeout(X, [F|R], [F|S]) :- takeout(X, R, S).
+
+% Permutation
+% 
+% - Z is a permutation of [X|Y] provided W is a permutation of Y and then X is put into W to produce Z
+% - [] is the (only) permutation of []
+perm([],[]).
+perm([X|Y],Z) :- perm(Y,W), takeout(X,Z,W).   
+
 % Length
 len([], 0).
 len([H|T], N) :- len(T, N1), N is N1 +1.
 
 % Map
+% map(double, [1, 2, 3], X).
 map(_, [], []).
 map(F, [X|XS], [Y|YS]) :- call(F, X, Y), map(F, XS, YS).
 
 double(N, R) :- R is N * N.
 
 % Filter
+% filter(<(3), [1, 2, 3], X).
 filter(_, [], []).
 filter(F, [X|XS], YS) :- 
 	(call(F, X) ->
