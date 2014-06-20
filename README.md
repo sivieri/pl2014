@@ -58,3 +58,7 @@ Each function is preceded by the specification of parameters and return value ty
 # Lecture 9 - Haskell, Prolog
 * Haskell: concurrency, threads and shared data
 * Prolog: genealogy example, list manipulation, combinations
+
+# Lecture 10 - Prolog
+* Other examples treating Prolog as a functional language: fold, binary trees
+* Solve problems: Tower of Hanoi, 8 queens, Sudoku
