@@ -1,13 +1,25 @@
 % Foldl
-foldl(Goal, List, V0, V) :-
-    foldl_(List, Goal, V0, V).
-
-foldl_([], _, V, V).
-foldl_([H|T], Goal, V0, V) :-
-    call(Goal, H, V0, V1),
-    foldl_(T, Goal, V1, V).
+% [5, 3, 7, 1, 4, 6, 8]
+foldl(_, [], Acc, Acc).
+foldl(F, [H|T], Acc, R) :-
+    call(F, H, Acc, Acc1),
+    foldl(F, T, Acc1, R).
 
 sum(A, B, R) :- R is A + B.
+
+% Cut
+s(X, Y) :- q(X, Y).
+s(0, 0).
+
+% q(X, Y) :- i(X), !, j(Y).
+q(X, Y) :- i(X), j(Y).
+
+i(1).
+i(2).
+
+j(1).
+j(2).
+j(3).
 
 % Binary trees
 tree_singleton(N, R) :- R = tree(N, empty, empty).
@@ -29,16 +41,40 @@ tree_values(empty, []).
 tree_values(tree(N, L, R), [N|Res]) :- tree_values(L, X1), tree_values(R, X2), append(X1, X2, Res).
 
 % Hanoi
-hanoi(N) :- dohanoi(N, a, b, c).
+hanoi(N) :- dohanoi(N, left, right, center).
 
-dohanoi(0, _, _, _) :- !.
-dohanoi(N, A, B, C) :- !, N1 is N - 1, dohanoi(N1, A, B, C), moveit(A, B), dohanoi(N1, C, B, A).
+dohanoi(1, X, Y, _) :-  
+    write('Move top disk from '), 
+    write(X), 
+    write(' to '), 
+    write(Y), 
+    nl. 
+dohanoi(N, X, Y, Z) :- 
+    N > 1, 
+    M is N - 1, 
+    dohanoi(M, X, Z, Y), 
+    dohanoi(1, X, Y, _), 
+    dohanoi(M, Z, Y, X). 
 
-moveit(F, T) :- print(F), print(--->), print(T), nl.
+% 8-queens
+queens([]). 
+queens([Row/Col | Rest]) :-
+            queens(Rest),
+            member(Col, [1,2,3,4,5,6,7,8]),
+            safe(Row/Col, Rest). 
+
+safe(Anything, []). 
+safe(Row/Col, [Row1/Col1 | Rest]) :-
+            Col =\= Col1,
+            Col1 - Col =\= Row1 - Row,
+            Col1 - Col =\= Row - Row1,
+            safe(Row/Col, Rest). 
+ 
+member(X, [X | Tail]). 
+member(X, [Head | Tail]) :-
+            member(X, Tail).
 
 % Sudoku
-all(Cond, Action) :- \+ (Cond, \+ Action).
-
 related(vt(R,_), vt(R,_)).
 related(vt(_,C), vt(_,C)).
 related(vt(R,C), vt(R1,C1)) :- 
