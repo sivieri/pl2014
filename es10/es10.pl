@@ -84,6 +84,7 @@ related(vt(R,C), vt(R1,C1)) :-
 
 colors(C) :- C = [1, 2, 3, 4, 5, 6, 7, 8, 9].
 
+% board(B), hints(H), sudoku_solve(B, H, [], S), print(S).
 sudoku_solve([], _, Solution, Solution).
 sudoku_solve([V | Vr], Hints, Solution, Result) :-
     member(s(V,Ch), Hints),
@@ -119,3 +120,7 @@ hints(H) :- H = [s(vt(1,1), 5), s(vt(1,2), 3), s(vt(1,5), 7),
                  s(vt(7,7), 2), s(vt(7,8), 8), s(vt(8,4), 4),
                  s(vt(8,5), 1), s(vt(8,6), 9), s(vt(8,9), 5),
                  s(vt(9,5), 8), s(vt(9,8), 7), s(vt(9,9), 9)].
+
+% Check the current printing limits, and increase them (to see the entire solution):
+% current_prolog_flag(toplevel_print_options, V).
+% set_prolog_flag(toplevel_print_options, [quoted(true), portray(true), max_depth(100), priority(699)]).
